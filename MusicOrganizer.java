@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A class to hold details of audio tracks.
@@ -15,6 +16,8 @@ public class MusicOrganizer
     private MusicPlayer player;
     // A reader that can read music files and load them as tracks.
     private TrackReader reader;
+    private Random rand = new Random();
+    private ArrayList<Track> shuffList = new ArrayList<Track>();
 
     /**
      * Create a MusicOrganizer
@@ -169,5 +172,104 @@ public class MusicOrganizer
         for(Track track : tempTracks) {
             addTrack(track);
         }
+    }
+    
+    // 4.43 && 4.45
+    private int FindRandomNum()
+    {
+        boolean isDebug = false;
+        
+         // Get random number that is within the length of the track list
+         int randNum = rand.nextInt(tracks.size());
+         
+         if(isDebug) System.out.println("Random number is " + randNum + ".");
+         return randNum;
+    }
+    
+    // 4.43
+    public void PlayRandomTrack()
+    {
+        boolean isDebug = false;
+        
+        if(tracks.size() == 1) playFirst();
+        else
+        {
+            int trackI = FindRandomNum();
+            playTrack(trackI);
+            
+            if(isDebug) System.out.println("Playing " + tracks.get(trackI).getDetails() + " at index " + trackI + ".");
+        }
+    }
+    
+    // 4.45
+    public void CreateShuffledList()
+    {
+        boolean isDebug = true;
+        
+        // Find the indexes for the list
+        if(isDebug) System.out.println("BEGINNING OF CHECKS =============================");
+        // Fill list
+        int[] usedI = new int[tracks.size()];
+        for(int i = 0; i < usedI.length; i++) usedI[i] = FindRandomNum();
+        // Shows list
+        if(isDebug)
+        {
+            System.out.println("FIRST CHECK");
+            for(int i = 0; i < usedI.length; i++) System.out.println("usedI[" + i + "] = " + usedI[i] + ".");
+            System.out.println("NEXT CHECK");
+        }
+        
+        // Check list for doubles
+        for(int i = 0; i < tracks.size(); i++)
+        {
+            boolean foundInstance = false;
+            
+            // Go through each position
+            for(int ii = 0; ii < usedI.length; ii++)
+            {
+                if(i == usedI[ii])
+                {
+                    if(!foundInstance) foundInstance = true;
+                    else
+                    {
+                        usedI[ii]++;
+                        if(usedI[ii] >= usedI.length) usedI[ii] = 0;
+                        
+                        // Check if same as another after change
+                        boolean foundMatch = true;
+                        while(foundMatch)
+                        {
+                            for(int iii = 0; iii < usedI.length; iii++)
+                            {
+                                foundMatch = false;
+                                if(ii != iii && usedI[ii] == usedI[iii])
+                                {
+                                    usedI[ii]++;
+                                    if(usedI[ii] >= usedI.length) usedI[ii] = 0;
+                                    foundMatch = true;
+                                }
+                            }
+                            
+                            // Shows list
+                            if(isDebug)
+                            {
+                                for(int d = 0; d < usedI.length; d++) System.out.println("usedI[" + d + "] = " + usedI[d] + ".");
+                                System.out.println("NEXT CHECK");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(isDebug) System.out.println("NO MORE CHECKS ==================================");
+        
+        // Assign each song to their proper index
+        if(isDebug) System.out.println("ADDING SONGS ====================================");
+        for(int i = 0; i < usedI.length; i++)
+        {
+            shuffList.add(tracks.get(usedI[i]));
+            if(isDebug) System.out.println("Added " + tracks.get(usedI[i]).getDetails() + ".");
+        }
+        if(isDebug) System.out.println("SONGS ADDED =====================================");
     }
 }
