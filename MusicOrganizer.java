@@ -214,9 +214,8 @@ public class MusicOrganizer
         // Shows list
         if(isDebug)
         {
-            System.out.println("FIRST CHECK");
+            System.out.println("FILLLING LIST");
             for(int i = 0; i < usedI.length; i++) System.out.println("usedI[" + i + "] = " + usedI[i] + ".");
-            System.out.println("NEXT CHECK");
         }
         
         // Check list for doubles
@@ -239,6 +238,8 @@ public class MusicOrganizer
                         boolean foundMatch = true;
                         while(foundMatch)
                         {
+                            if(isDebug) System.out.println("CHECKING LIST");
+                            
                             for(int iii = 0; iii < usedI.length; iii++)
                             {
                                 foundMatch = false;
@@ -251,11 +252,7 @@ public class MusicOrganizer
                             }
                             
                             // Shows list
-                            if(isDebug)
-                            {
-                                for(int d = 0; d < usedI.length; d++) System.out.println("usedI[" + d + "] = " + usedI[d] + ".");
-                                System.out.println("NEXT CHECK");
-                            }
+                            if(isDebug) for(int d = 0; d < usedI.length; d++) System.out.println("usedI[" + d + "] = " + usedI[d] + ".");
                         }
                     }
                 }
