@@ -78,9 +78,12 @@ public class MusicOrganizer
      */
     public void listTrack(int index)
     {
-        System.out.print("Track " + index + ": ");
-        Track track = tracks.get(index);
-        System.out.println(track.getDetails());
+        if(validIndex(index))
+        {
+			System.out.print("Track " + index + ": ");
+	        Track track = tracks.get(index);
+	        System.out.println(track.getDetails());
+		}
     }
     
     /**
@@ -90,9 +93,16 @@ public class MusicOrganizer
     {
         System.out.println("Track listing: ");
 
-        for(Track track : tracks) {
-            System.out.println(track.getDetails());
+		int i = 0;
+        for(i; i < tracks.size(); i++)
+		{
+            System.out.println(i + " is " + track.getDetails());
         }
+        /*do
+        {
+			if(tracks.size() > 0) System.out.println(i + " is " + tracks.get(i).getDetails());
+			i++;
+        } while(i < tracks.size());*/
         System.out.println();
     }
     
@@ -115,7 +125,7 @@ public class MusicOrganizer
      */
     public void removeTrack(int index)
     {
-        if(indexValid(index)) {
+        if(validIndex(index)) {
             tracks.remove(index);
         }
     }
@@ -200,7 +210,7 @@ public class MusicOrganizer
             if(isDebug) System.out.println("Playing " + tracks.get(trackI).getDetails() + " at index " + trackI + ".");
         }
     }
-    
+
     // 4.45
     public void CreateShuffledList()
     {
@@ -269,4 +279,64 @@ public class MusicOrganizer
         }
         if(isDebug) System.out.println("SONGS ADDED =====================================");
     }
+
+	// 4.14
+    public boolean validIndex(int iToCheck)
+	{
+		if(iToCheck < tracks.size() && iToCheck >= 0) return true;
+		else return false;
+	}
+	
+	// 4.30
+	public void multiplesOfFive()
+	{
+		int i = 10;
+		while(i <= 95)
+		{
+			if(i % 5 == 0 && i % 10 != 0) System.out.println(i);
+			else if(i == 55) System.out.println(i);
+			
+			i++;
+		}
+	}
+	
+	// 4.31
+	public void SumToTen()
+	{
+		int i = 1;
+		int sum = 0;
+		while(i <= 10)
+		{
+			sum += i;
+			i++;
+		}
+		System.out.println(sum);
+	}
+	
+	// 4.32
+	public void Sum(int a, int b)
+	{
+		int i = a;
+		int sum = 0;
+		while(i <= b)
+		{
+			sum += i;
+			i++;
+		}
+		System.out.println(sum);
+	}
+	
+	// 4.33
+	int lastI = 0;
+	public boolean isPrime(int num)
+	{
+		int i = 2;
+		while (i < num)
+		{
+			if(num % i == 0) return false;
+			i++;
+		}
+		
+		return true;
+	}
 }
